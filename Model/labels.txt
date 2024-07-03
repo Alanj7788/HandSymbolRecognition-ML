@@ -1,0 +1,4 @@
+0 I hope this letter finds you well
+1 Yours sincerely
+2 I look forward to hearing from you soon
+3 To whom it may concern
