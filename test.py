@@ -19,6 +19,7 @@ labels = ["I hope this letter finds you well", "Yours sincerely", "I look forwar
 
 last_capture_time = time.time()
 last_prediction = None
+gesture_prediction_active = True  # Flag to control gesture prediction
 
 # Tkinter setup
 root = tk.Tk()
@@ -31,8 +32,40 @@ video_label.pack()
 word_label = tk.Label(root, text="", font=("Helvetica", 16))
 word_label.pack()
 
+# Create a frame for the on-screen keyboard
+keyboard_frame = tk.Frame(root)
+keyboard_frame.pack()
+
+# Create on-screen keyboard
+keyboard_letters = [
+    'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P',
+    'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L',
+    'Z', 'X', 'C', 'V', 'B', 'N', 'M'
+]
+
+def on_key_press(letter):
+    current_text = word_label.cget("text")
+    word_label.config(text=current_text + letter)
+    pyautogui.write(letter)  # This will write to the current cursor position
+
+# Arrange buttons in a grid
+for i, letter in enumerate(keyboard_letters):
+    button = tk.Button(keyboard_frame, text=letter, command=lambda l=letter: on_key_press(l))
+    button.grid(row=i // 10, column=i % 10)
+
+def toggle_gesture_prediction():
+    global gesture_prediction_active
+    gesture_prediction_active = not gesture_prediction_active
+    if gesture_prediction_active:
+        toggle_button.config(text="Turn Off Gesture Prediction")
+    else:
+        toggle_button.config(text="Turn On Gesture Prediction")
+
+toggle_button = tk.Button(root, text="Turn Off Gesture Prediction", command=toggle_gesture_prediction)
+toggle_button.pack()
+
 def update_frame():
-    global last_capture_time, last_prediction
+    global last_capture_time, last_prediction, gesture_prediction_active
 
     success, img = cap.read()
     img = cv2.flip(img, 1)
@@ -42,7 +75,7 @@ def update_frame():
     if current_time - last_capture_time >= 1.5:
         last_capture_time = current_time
 
-        if hands:
+        if hands and gesture_prediction_active:
             hand = hands[0]
             x, y, w, h = hand['bbox']
 
@@ -72,11 +105,13 @@ def update_frame():
             word_label.config(text=last_prediction)
         else:
             word_label.config(text="")
-            if last_prediction:
-                pyautogui.write(last_prediction,interval=0.1)
+            if last_prediction and gesture_prediction_active:
+                pyautogui.write(last_prediction, interval=0.1)
+                last_prediction = None  # Reset after writing
                 root.quit()
                 return
 
+    img = cv2.resize(img, (320, 240))  # Resize the video to 320x240
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     imgtk = ImageTk.PhotoImage(image=Image.fromarray(img))
     video_label.imgtk = imgtk
