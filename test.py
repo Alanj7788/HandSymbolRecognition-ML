@@ -4,7 +4,7 @@ from cvzone.ClassificationModule import Classifier
 from time import sleep
 import numpy as np
 import cvzone
-from pynput.keyboard import Controller
+from pynput.keyboard import Controller,Key
 import math
 import time
 import tkinter as tk
@@ -21,9 +21,11 @@ labels = ["I hope this letter finds you well", "Yours sincerely", "I look forwar
           "To whom it may concern"]
 
 keyboard = Controller()
-keys = [["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
-        ["A", "S", "D", "F", "G", "H", "J", "K", "L", "'"],
-        ["Z", "X", "C", "V", "B", "N", "M", ",", ".", "/"]]
+keys = [["Q", "W", "E", "R", "T", "Y", "U"],
+        ["I", "O", "P", "A", "S", "D", "F"],
+        ["G", "H", "J", "K", "L", "Z", "X"],
+        ["C", "V", "B", "N", "M", ",", "<-"],
+        ["/", "<-'", ".", " "]]
 
 finalText = ""
 last_capture_time = time.time()
@@ -56,11 +58,11 @@ def drawAll(img, buttonList):
         w, h = button.size
         cvzone.cornerRect(img, (button.pos[0], button.pos[1], button.size[0], button.size[1]), 20, rt=0)
         cv2.rectangle(img, button.pos, (x + w, y + h), (255, 0, 255), cv2.FILLED)
-        cv2.putText(img, button.text, (x + 20, y + 65), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 4)
+        cv2.putText(img, button.text, (x + 10, y + 40), cv2.FONT_HERSHEY_PLAIN, 1.7, (255, 255, 255), 3) #letter size
     return img
 
 class Button():
-    def __init__(self, pos, text, size=[85, 85]):
+    def __init__(self, pos, text, size=[65, 65]): # 55 is square pink size
         self.pos = pos
         self.size = size
         self.text = text
@@ -69,7 +71,7 @@ buttonList = []
 
 for i in range(len(keys)):
     for j, key in enumerate(keys[i]):
-        buttonList.append(Button([j * 100 + 50, 100 * i + 50], key))
+        buttonList.append(Button([j * 73 + 120, 73 * i+40], key)) # +40 values are for margin from sides, *70 is for padding bw buttons
 
 # Function to toggle features on/off
 def toggle_feature(feature):
@@ -139,7 +141,7 @@ def perform_keyboard_detection(hands, img):
 
                 if x < lmList[8][0] < x + w and y < lmList[8][1] < y + h:  # lmList[8][x] x value and lmList[8][1] y value
                     cv2.rectangle(img, (x - 5, y - 5), (x + w + 5, y + h + 5), (175, 0, 175), cv2.FILLED)  # highlight the key when index is on for pink color
-                    cv2.putText(img, button.text, (x + 20, y + 65), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 4)  # highlight the key when index is on for letter white color
+                    cv2.putText(img, button.text, (x + 12, y + 50), cv2.FONT_HERSHEY_PLAIN, 2.15, (255, 255, 255), 4)  # highlight the key when index is on for letter white color
 
                     # Extract x, y values for landmarks 8 and 12
                     x1, y1 = lmList[5][0], lmList[5][1]
@@ -150,11 +152,19 @@ def perform_keyboard_detection(hands, img):
 
                     # When Clicked
                     if l < 30:  # Adjust the threshold for click detection
-                        keyboard.press(button.text)
-                        keyboard.release(button.text)
-                        #cv2.rectangle(img, button.pos, (x + w, y + h), (0, 255, 0), cv2.FILLED)
-                        #cv2.putText(img, button.text, (x + 20, y + 65), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 4)
-                        #finalText += button.text
+                        if button.text == "<-'":
+                            keyboard.press(Key.enter)
+                            keyboard.release(Key.enter)
+                        elif button.text == "<-":
+                            keyboard.press(Key.backspace)
+                            keyboard.release(Key.backspace)
+                        else:
+                            keyboard.press(button.text)
+                            keyboard.release(button.text)
+
+                            #cv2.rectangle(img, button.pos, (x + w, y + h), (0, 255, 0), cv2.FILLED)
+                            #cv2.putText(img, button.text, (x + 20, y + 65), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 4)
+                            #finalText += button.text
                         sleep(0.7)
 
        # cv2.rectangle(img, (50, 350), (1032, 450), (175, 0, 175), cv2.FILLED)  # placeholder for displaying text
