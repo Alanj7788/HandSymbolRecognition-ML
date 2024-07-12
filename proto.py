@@ -58,6 +58,7 @@ def start_tracking():
             break
 
         success, img = cap.read()
+        img = cv2.flip(img, 1)
         if not success:
             break
         hands, img = detector.findHands(img)

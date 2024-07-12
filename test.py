@@ -138,26 +138,27 @@ def perform_keyboard_detection(hands, img):
                 w, h = button.size
 
                 if x < lmList[8][0] < x + w and y < lmList[8][1] < y + h:  # lmList[8][x] x value and lmList[8][1] y value
-                    cv2.rectangle(img, (x - 5, y - 5), (x + w + 5, y + h + 5), (175, 0, 175), cv2.FILLED)  # creating rectangle box for key(175,0,175)=purple
-                    cv2.putText(img, button.text, (x + 20, y + 65), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 4)  # cv2plainhershey white color for letter
+                    cv2.rectangle(img, (x - 5, y - 5), (x + w + 5, y + h + 5), (175, 0, 175), cv2.FILLED)  # highlight the key when index is on for pink color
+                    cv2.putText(img, button.text, (x + 20, y + 65), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 4)  # highlight the key when index is on for letter white color
 
                     # Extract x, y values for landmarks 8 and 12
-                    x1, y1 = lmList[8][0], lmList[8][1]
-                    x2, y2 = lmList[12][0], lmList[12][1]
+                    x1, y1 = lmList[5][0], lmList[5][1]
+                    x2, y2 = lmList[4][0], lmList[4][1]
 
                     l, _, _ = detector.findDistance((x1, y1), (x2, y2), img)  # get coordinates of landmarks 8 and 12
                     print(l)
 
                     # When Clicked
-                    if l < 40:  # Adjust the threshold for click detection
+                    if l < 30:  # Adjust the threshold for click detection
                         keyboard.press(button.text)
-                        cv2.rectangle(img, button.pos, (x + w, y + h), (0, 255, 0), cv2.FILLED)
-                        cv2.putText(img, button.text, (x + 20, y + 65), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 4)
-                        finalText += button.text
-                        sleep(0.45)
+                        keyboard.release(button.text)
+                        #cv2.rectangle(img, button.pos, (x + w, y + h), (0, 255, 0), cv2.FILLED)
+                        #cv2.putText(img, button.text, (x + 20, y + 65), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 4)
+                        #finalText += button.text
+                        sleep(0.7)
 
-        cv2.rectangle(img, (50, 350), (1032, 450), (175, 0, 175), cv2.FILLED)  # placeholder for displaying text
-        cv2.putText(img, finalText, (60, 430), cv2.FONT_HERSHEY_PLAIN, 5, (255, 255, 255), 5)  # placeholder for displaying text
+       # cv2.rectangle(img, (50, 350), (1032, 450), (175, 0, 175), cv2.FILLED)  # placeholder for displaying text
+       # cv2.putText(img, finalText, (60, 430), cv2.FONT_HERSHEY_PLAIN, 5, (255, 255, 255), 5)  # placeholder for displaying text
 
 # Function to update the video frame and perform gesture recognition or keyboard detection
 def update_frame():
