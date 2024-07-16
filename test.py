@@ -4,7 +4,7 @@ from cvzone.ClassificationModule import Classifier
 from time import sleep
 import numpy as np
 import cvzone
-from pynput.keyboard import Controller,Key
+from pynput.keyboard import Controller, Key
 import math
 import time
 import tkinter as tk
@@ -27,11 +27,12 @@ keys = [["Q", "W", "E", "R", "T", "Y", "U"],
         ["C", "V", "B", "N", "M", ",", "<-"],
         ["/", "<-'", ".", " "]]
 
-finalText = ""
+# finalText = ""
 last_capture_time = time.time()
 last_prediction = None
 gesture_prediction_active = False  # Initially set to False (off)
 keyboard_detection_active = False  # Initially set to False (off)
+mouse_detection_active = False
 
 # Tkinter setup
 root = tk.Tk()
@@ -52,6 +53,10 @@ toggle_gesture_button.pack()
 toggle_keyboard_button = tk.Button(root, text="Turn On Keyboard Detection", command=lambda: toggle_feature("keyboard"))
 toggle_keyboard_button.pack()
 
+# Button to toggle virtual mouse
+toggle_mouse_button = tk.Button(root, text="Turn On Virtual Mouse", command=lambda: toggle_feature("mouse"))
+toggle_mouse_button.pack()
+
 def drawAll(img, buttonList):
     for button in buttonList:
         x, y = button.pos
@@ -62,7 +67,7 @@ def drawAll(img, buttonList):
     return img
 
 class Button():
-    def __init__(self, pos, text, size=[65, 65]): # 55 is square pink size
+    def __init__(self, pos, text, size=[65, 65]): # 65 is square pink size
         self.pos = pos
         self.size = size
         self.text = text
@@ -71,17 +76,20 @@ buttonList = []
 
 for i in range(len(keys)):
     for j, key in enumerate(keys[i]):
-        buttonList.append(Button([j * 73 + 120, 73 * i+40], key)) # +40 values are for margin from sides, *70 is for padding bw buttons
+        buttonList.append(Button([j * 73 + 120, 73 * i+40], key)) # +40,+120 values are for margin from sides, *73 is for padding bw buttons
 
 # Function to toggle features on/off
 def toggle_feature(feature):
-    global gesture_prediction_active, keyboard_detection_active
+    global gesture_prediction_active, keyboard_detection_active, mouse_detection_active
     if feature == "gesture":
         gesture_prediction_active = not gesture_prediction_active
         toggle_gesture_button.config(text="Turn Off Gesture Prediction" if gesture_prediction_active else "Turn On Gesture Prediction")
     elif feature == "keyboard":
         keyboard_detection_active = not keyboard_detection_active
         toggle_keyboard_button.config(text="Turn Off Keyboard Detection" if keyboard_detection_active else "Turn On Keyboard Detection")
+    elif feature == "mouse":
+        mouse_detection_active = not mouse_detection_active
+        toggle_mouse_button.config(text="Turn Off Virtual Mouse" if mouse_detection_active else "Turn On Virtual Mouse")
 
 # Function to handle hand gesture prediction
 def perform_gesture_prediction(hands, img):
@@ -165,14 +173,82 @@ def perform_keyboard_detection(hands, img):
                             #cv2.rectangle(img, button.pos, (x + w, y + h), (0, 255, 0), cv2.FILLED)
                             #cv2.putText(img, button.text, (x + 20, y + 65), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 4)
                             #finalText += button.text
-                        sleep(0.7)
+                        sleep(0.6)
 
        # cv2.rectangle(img, (50, 350), (1032, 450), (175, 0, 175), cv2.FILLED)  # placeholder for displaying text
        # cv2.putText(img, finalText, (60, 430), cv2.FONT_HERSHEY_PLAIN, 5, (255, 255, 255), 5)  # placeholder for displaying text
 
+def perform_virtual_mouse(hands, img):
+    screen_width, screen_height = pyautogui.size()
+    frame_height, frame_width, _ = img.shape
+    index_y = 0;
+    index_x = 0;
+    middle_y = 0;
+    middle_x = 0;
+    ring_y = 0;
+    ring_x = 0;
+    pinky_y = 0;
+    pinky_x = 0;
+    thumb_y = 0;
+    thumb_x = 0;
+    if hands:
+        hand = hands[0]
+        lmList = hand["lmList"]
+
+        for id, lm in enumerate(lmList):
+            x, y = lm[0], lm[1]
+
+            if id == 8:  # Index finger tip
+                cv2.circle(img, (x, y), 10, (0, 255, 255), cv2.FILLED)
+                index_x = screen_width / frame_width * x
+                index_y = screen_height / frame_height * y
+                pyautogui.moveTo(index_x, index_y)
+
+            if id == 12:  # Middle finger tip
+                cv2.circle(img, (x, y), 10, (0, 255, 255), cv2.FILLED)
+                middle_x = screen_width / frame_width * x
+                middle_y = screen_height / frame_height * y
+
+            if id == 16:  # Ring finger tip
+                cv2.circle(img, (x, y), 10, (0, 255, 255), cv2.FILLED)
+                ring_x = screen_width / frame_width * x
+                ring_y = screen_height / frame_height * y
+
+            if id == 20:  # Pinky finger tip
+                cv2.circle(img, (x, y), 10, (0, 255, 255), cv2.FILLED)
+                pinky_x = screen_width / frame_width * x
+                pinky_y = screen_height / frame_height * y
+
+            if id == 4:  # Thumb tip
+                cv2.circle(img, (x, y), 10, (0, 255, 255), cv2.FILLED)
+                thumb_x = screen_width / frame_width * x
+                thumb_y = screen_height / frame_height * y
+
+                # Debug information
+                print(f"Thumb Y: {thumb_y}, Index Y: {index_y}, Middle Y: {middle_y}, Ring Y: {ring_y}, Pinky Y: {pinky_y}")
+
+                # Check for gestures only if all necessary coordinates are updated
+                if index_y and middle_y and ring_y and pinky_y and thumb_y:
+                    if abs(index_y - thumb_y) < 30 and abs(index_x - thumb_x) < 30:
+                        print('Scroll Up')
+                        pyautogui.scroll(300)
+                        pyautogui.sleep(0.5)
+                    elif abs(pinky_y - thumb_y) < 30 and abs(pinky_x - thumb_x) < 30:
+                        print('Right Click')
+                        pyautogui.rightClick()
+                        pyautogui.sleep(1)
+                    elif abs(middle_y - thumb_y) < 30 and abs(middle_x - thumb_x) < 30:
+                        print('Scroll Down')
+                        pyautogui.scroll(-300)
+                        pyautogui.sleep(0.5)
+                    elif abs(ring_y - thumb_y) < 30 and abs(ring_x - thumb_x) < 30:
+                        print('Left Click')
+                        pyautogui.click()
+                        pyautogui.sleep(1)
+
 # Function to update the video frame and perform gesture recognition or keyboard detection
 def update_frame():
-    global gesture_prediction_active, keyboard_detection_active
+    global gesture_prediction_active, keyboard_detection_active, mouse_detection_active
 
     success, img = cap.read()
     img = cv2.flip(img, 1)
@@ -182,6 +258,8 @@ def update_frame():
         perform_gesture_prediction(hands, img)
     if keyboard_detection_active:
         perform_keyboard_detection(hands, img)
+    if mouse_detection_active:
+        perform_virtual_mouse(hands, img)
 
     img = cv2.resize(img, (640, 480))  # Resize the video to 640x480
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
