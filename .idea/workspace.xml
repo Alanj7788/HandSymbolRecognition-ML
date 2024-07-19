@@ -45,7 +45,7 @@
     &quot;Python.proto.executor&quot;: &quot;Run&quot;,
     &quot;Python.test.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;keyboard&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;mouse&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/alanj/PycharmProjects/virtualMouse/pythonProject-VirtualMouse/main.py&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -98,6 +98,7 @@
       <workItem from="1720954759958" duration="1026000" />
       <workItem from="1721127584886" duration="607000" />
       <workItem from="1721129214140" duration="6000" />
+      <workItem from="1721414717060" duration="5146000" />
     </task>
     <servers />
   </component>
@@ -108,7 +109,7 @@
     <SUITE FILE_PATH="coverage/pythonProject_TestHand$akhil.coverage" NAME="akhil Coverage Results" MODIFIED="1720516955217" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/pythonProject_TestHand$main.coverage" NAME="main Coverage Results" MODIFIED="1720861331001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../virtualMouse/pythonProject-VirtualMouse" />
     <SUITE FILE_PATH="coverage/pythonProject_TestHand$proto.coverage" NAME="proto Coverage Results" MODIFIED="1720782180886" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/pythonProject_TestHand$test.coverage" NAME="test Coverage Results" MODIFIED="1720931874628" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pythonProject_TestHand$test.coverage" NAME="test Coverage Results" MODIFIED="1721420173598" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/pythonProject_TestHand$dataCollection.coverage" NAME="dataCollection Coverage Results" MODIFIED="1720009247156" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

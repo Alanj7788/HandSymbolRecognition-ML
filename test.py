@@ -62,7 +62,7 @@ def drawAll(img, buttonList):
         x, y = button.pos
         w, h = button.size
         cvzone.cornerRect(img, (button.pos[0], button.pos[1], button.size[0], button.size[1]), 20, rt=0)
-        cv2.rectangle(img, button.pos, (x + w, y + h), (255, 0, 255), cv2.FILLED)
+        cv2.rectangle(img, button.pos, (x + w, y + h), (255, 102, 102), cv2.FILLED)
         cv2.putText(img, button.text, (x + 10, y + 40), cv2.FONT_HERSHEY_PLAIN, 1.7, (255, 255, 255), 3) #letter size
     return img
 
@@ -148,7 +148,7 @@ def perform_keyboard_detection(hands, img):
                 w, h = button.size
 
                 if x < lmList[8][0] < x + w and y < lmList[8][1] < y + h:  # lmList[8][x] x value and lmList[8][1] y value
-                    cv2.rectangle(img, (x - 5, y - 5), (x + w + 5, y + h + 5), (175, 0, 175), cv2.FILLED)  # highlight the key when index is on for pink color
+                    cv2.rectangle(img, (x - 5, y - 5), (x + w + 5, y + h + 5), (255, 51, 51), cv2.FILLED)  # highlight the key when index is on for pink color
                     cv2.putText(img, button.text, (x + 12, y + 50), cv2.FONT_HERSHEY_PLAIN, 2.15, (255, 255, 255), 4)  # highlight the key when index is on for letter white color
 
                     # Extract x, y values for landmarks 8 and 12
@@ -178,7 +178,7 @@ def perform_keyboard_detection(hands, img):
        # cv2.rectangle(img, (50, 350), (1032, 450), (175, 0, 175), cv2.FILLED)  # placeholder for displaying text
        # cv2.putText(img, finalText, (60, 430), cv2.FONT_HERSHEY_PLAIN, 5, (255, 255, 255), 5)  # placeholder for displaying text
 
-def perform_virtual_mouse(hands, img):
+'''def perform_virtual_mouse(hands, img):
     screen_width, screen_height = pyautogui.size()
     frame_height, frame_width, _ = img.shape
     index_y = 0;
@@ -244,7 +244,76 @@ def perform_virtual_mouse(hands, img):
                     elif abs(ring_y - thumb_y) < 30 and abs(ring_x - thumb_x) < 30:
                         print('Left Click')
                         pyautogui.click()
-                        pyautogui.sleep(1)
+                        pyautogui.sleep(1) '''
+
+def perform_virtual_mouse(hands, img):
+    screen_width, screen_height = pyautogui.size()
+    frame_height, frame_width, _ = img.shape
+
+    if hands:
+        hand = hands[0]
+        lmList = hand["lmList"]
+
+        index_x = index_y = 0
+        middle_x = middle_y = 0
+        ring_x = ring_y = 0
+        pinky_x = pinky_y = 0
+        thumb_x = thumb_y = 0
+        pointer_x=pointer_y=0
+
+        for id, lm in enumerate(lmList):
+            x, y = lm[0], lm[1]
+            if id == 8:  # Index finger tip
+                index_x = screen_width / frame_width * x
+                index_y = screen_height / frame_height * y
+                cv2.circle(img, (x, y), 10, (0, 255, 255), cv2.FILLED)
+                pyautogui.moveTo(index_x, index_y)
+            elif id==0:
+                pointer_x = screen_width / frame_width * x
+                pointer_y = screen_height / frame_height * y
+                cv2.circle(img, (x, y), 10, (0, 255, 255), cv2.FILLED)
+                #pyautogui.moveTo(pointer_x, pointer_y)
+            elif id == 12:  # Middle finger tip
+                middle_x = screen_width / frame_width * x
+                middle_y = screen_height / frame_height * y
+                cv2.circle(img, (x, y), 10, (0, 255, 255), cv2.FILLED)
+            elif id == 16:  # Ring finger tip
+                ring_x = screen_width / frame_width * x
+                ring_y = screen_height / frame_height * y
+                cv2.circle(img, (x, y), 10, (0, 255, 255), cv2.FILLED)
+            elif id == 20:  # Pinky finger tip
+                pinky_x = screen_width / frame_width * x
+                pinky_y = screen_height / frame_height * y
+                cv2.circle(img, (x, y), 10, (0, 255, 255), cv2.FILLED)
+            elif id == 4:  # Thumb tip
+                thumb_x = screen_width / frame_width * x
+                thumb_y = screen_height / frame_height * y
+                cv2.circle(img, (x, y), 10, (0, 255, 255), cv2.FILLED)
+
+        # Debug information
+        print(f"Thumb Y: {thumb_y}, Index Y: {index_y}, Middle Y: {middle_y}, Ring Y: {ring_y}, Pinky Y: {pinky_y}")
+
+        # Ensure all coordinates are updated before checking gestures
+        if index_y and middle_y and ring_y and pinky_y and thumb_y:
+            if abs(index_y - thumb_y) < 30 and abs(index_x - thumb_x) < 30:
+                print('Scroll Up')
+                pyautogui.scroll(300)
+                pyautogui.sleep(0.5)
+            elif abs(pinky_y - thumb_y) < 30 and abs(pinky_x - thumb_x) < 30:
+                print('Right Click')
+                pyautogui.rightClick()
+                pyautogui.sleep(1)
+            elif abs(middle_y - thumb_y) < 30 and abs(middle_x - thumb_x) < 30:
+                print('Scroll Down')
+                pyautogui.scroll(-300)
+                pyautogui.sleep(0.5)
+            elif abs(ring_y - thumb_y) < 30 and abs(ring_x - thumb_x) < 30:
+                print('Left Click')
+                pyautogui.click()
+                pyautogui.sleep(1)
+
+
+
 
 # Function to update the video frame and perform gesture recognition or keyboard detection
 def update_frame():
