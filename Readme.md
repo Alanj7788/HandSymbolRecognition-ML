@@ -56,6 +56,11 @@ This project demonstrates a system that uses hand gestures for various tasks suc
 - **Model/keras_model.h5:** Pre-trained model for hand gesture classification.
 - **Model/labels.txt:** Labels for the hand gesture model.
 
+## Dataset And Model
+
+[Drive Link](https://drive.google.com/drive/folders/1N20fP4Tq75Cvn2F6AOfGgqwC2rDannHl)
+  
+
 ## Model Training
 
 The model was trained by uploading images to [Teachable Machine](https://teachablemachine.withgoogle.com/) and obtaining a Keras model from there.
