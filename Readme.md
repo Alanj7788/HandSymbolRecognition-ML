@@ -24,6 +24,7 @@ This project demonstrates a system that uses hand gestures for various tasks suc
     pip install pynput
     pip install pillow
     pip install pyautogui
+    pip install tensorflow
     ```
 
 3. Download the pre-trained model and labels file, and place them in the `Model` directory:
