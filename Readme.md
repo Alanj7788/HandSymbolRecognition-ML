@@ -27,8 +27,8 @@ This project demonstrates a system that uses hand gestures for various tasks suc
     ```
 
 3. Download the pre-trained model and labels file, and place them in the `Model` directory:
-    - [keras_model.h5](path-to-model)
-    - [labels.txt](path-to-labels)
+    - [keras_model.h5](Model/keras_model.h5)
+    - [labels.txt](Model/labels.txt)
 
 ## Usage
 
