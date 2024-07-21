@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4428a20f-14d5-45c1-b786-f2be50ebaff8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +97,8 @@
       <workItem from="1720954759958" duration="1026000" />
       <workItem from="1721127584886" duration="607000" />
       <workItem from="1721129214140" duration="6000" />
-      <workItem from="1721414717060" duration="5146000" />
+      <workItem from="1721414717060" duration="6118000" />
+      <workItem from="1721450069573" duration="3584000" />
     </task>
     <servers />
   </component>
@@ -109,7 +109,7 @@
     <SUITE FILE_PATH="coverage/pythonProject_TestHand$akhil.coverage" NAME="akhil Coverage Results" MODIFIED="1720516955217" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/pythonProject_TestHand$main.coverage" NAME="main Coverage Results" MODIFIED="1720861331001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/../virtualMouse/pythonProject-VirtualMouse" />
     <SUITE FILE_PATH="coverage/pythonProject_TestHand$proto.coverage" NAME="proto Coverage Results" MODIFIED="1720782180886" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/pythonProject_TestHand$test.coverage" NAME="test Coverage Results" MODIFIED="1721420173598" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pythonProject_TestHand$test.coverage" NAME="test Coverage Results" MODIFIED="1721450094633" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/pythonProject_TestHand$dataCollection.coverage" NAME="dataCollection Coverage Results" MODIFIED="1720009247156" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
